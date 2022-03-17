@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
+  "targets": {
+    "main": false
+  },
   "scripts": {
     "dev": "parcel index.hbs -p 3000",
     "build": "parcel build index.hbs"
