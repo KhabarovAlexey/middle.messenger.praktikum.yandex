@@ -1,0 +1,37 @@
+---
+css:
+    - chat.css
+    - search.css
+    - contact.css
+    - testarea.css
+    - message.css
+---
+{{!< base}}
+
+<main>
+  <div class="chat_container">
+        <div class="chat_container__tape">
+            {{> button button_name = "Profile" button_class = "chat_container__tape__profile-link" onclick="location.href='./profile.html'"}}
+            {{> search}}
+            <div class="chat_container__chats_list">
+                {{#each contacts}}
+                    {{> contact }}
+                {{/each}}
+            </div>
+        </div>
+        <div class="chat_container__dialog">
+            <div class="chat_container__dialog__contact">
+                <div class="chat_container__dialog__contact__avatar"></div>
+                <div class="chat_container__dialog__contact__name">{{contacts.[0].name}}</div>
+                <div class="chat_container__dialog__contact__menu"></div>
+            </div>
+            <div class="chat_container__dialog__dialog">
+                {{> message author=contacts.[0].name message=contacts.[3].message}}
+                {{> message author="me" message=contacts.[2].message}}
+            </div>
+            <div class="chat_container__dialog__textarea">
+                {{> textarea}}
+            </div>
+        </div>
+  </div>
+</main>

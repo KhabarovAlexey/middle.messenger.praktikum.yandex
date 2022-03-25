@@ -1,0 +1,27 @@
+---
+css:
+    - profile.css
+    - dataLine.css
+---
+{{!< base}}
+<main>
+    <div class="profile">
+        <div class="profile__avatar">
+            <div class="profile__photo">
+            </div>
+            <p class="profile__name">{{user.fullName}}</p>
+        </div>
+        <div class="profile__inf">
+            {{> dataLine data1="Email" data2=user.email}}
+            {{> dataLine data1="Login" data2=user.login}}
+            {{> dataLine data1="Full name" data2=user.fullName}}
+            {{> dataLine data1="Display name" data2=user.displayName}}
+            {{> dataLine data1="Phone" data2=user.phone}}
+        </div>
+        <div class="profile__change">
+            {{> button button_name = "Change data" button_class = "profile__button-link" onclick="location.href='./change-data.html'"}}
+            {{> button button_name = "Change password" button_class = "profile__button-link" onclick="location.href='./change-password.html'"}}
+            {{> button button_name = "Back" button_class = "profile__button" onclick="location.href='./chat.html'"}}
+        </div>
+    </div>
+</main>

@@ -1,0 +1,29 @@
+.dataLine {
+  width: 500px;
+  margin: 0 auto;
+  border-bottom: 1px solid #a5a0a0;
+  margin-bottom: 50px;
+  &__start {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    color: #000000;
+    margin-right: auto;
+  }
+  &__end {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    color: #000000;
+    opacity: 0.5;
+    float: right;
+  }
+}
+.dataLine p {
+  display: inline-block;
+  vertical-align: top;
+}
