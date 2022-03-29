@@ -148,3 +148,11 @@ a {
 a:hover {
   text-decoration: underline;
 }
+:root {
+  --grey-color: #a5a0a0;
+  --primary-color: #007bff;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --dark-blue-color:rgba(0, 123, 255, 0.3);
+
+}

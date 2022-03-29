@@ -17,7 +17,7 @@
     line-height: 30px;
     align-items: center;
     text-align: center;
-    color: #000000;
+    color: var(--black-color);
   }
 
   &__content {
@@ -27,20 +27,28 @@
     height: 460px;
     top: 130px;
     margin: auto;
-    background: #ffffff;
+    background: var(--white-color);
   }
 
   &__login-input {
+    border: none;
+    border-bottom: 1px solid var(--grey-color);
     width: 230px;
     margin: 0 auto;
   }
   &__password-input {
+    border: none;
+    border-bottom: 1px solid var(--grey-color);
     width: 230px;
     margin: 0 auto;
   }
   &__button {
+    border: none;
+    display: block;
+    width: 230px;
+    margin: 0 auto;
     margin-top: 157px;
-    background: #007bff;
+    background: var(--primary-color);
     border-radius: 8px;
     font-family: 'Roboto';
     font-style: normal;
@@ -50,30 +58,23 @@
     align-items: center;
     text-align: center;
 
-    color: #ffffff;
+    color: var(--white-color);
   }
   &__button-link {
+    border: none;
+    display: block;
+    width: 230px;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
     background: none;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
     line-height: 30px;
-    color: #007bff;
+    color: var(--primary-color);
   }
-}
-button {
-  border: none;
-  display: block;
-  width: 230px;
-  margin: 0 auto;
-  align-items: center;
-  text-align: center;
-}
-input {
-  border: none;
-  width: 100%;
-  border-bottom: 1px solid #a5a0a0;
 }
 label {
   font-family: 'Roboto';
@@ -83,5 +84,5 @@ label {
   line-height: 30px;
   display: flex;
   align-items: center;
-  color: #a5a0a0;
+  color: var(--grey-color);
 }
