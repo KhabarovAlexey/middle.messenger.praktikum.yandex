@@ -31,13 +31,11 @@
   }
 
   &__login-input {
-    border: none;
     border-bottom: 1px solid var(--grey-color);
     width: 230px;
     margin: 0 auto;
   }
   &__password-input {
-    border: none;
     border-bottom: 1px solid var(--grey-color);
     width: 230px;
     margin: 0 auto;
@@ -75,14 +73,4 @@
     line-height: 30px;
     color: var(--primary-color);
   }
-}
-label {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 30px;
-  display: flex;
-  align-items: center;
-  color: var(--grey-color);
 }
