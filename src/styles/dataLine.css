@@ -1,7 +1,7 @@
 .dataLine {
   width: 500px;
   margin: 0 auto;
-  border-bottom: 1px solid #a5a0a0;
+  border-bottom: 1px solid var(--grey-color);
   margin-bottom: 50px;
   &__start {
     font-family: 'Roboto';
@@ -9,7 +9,7 @@
     font-weight: 400;
     font-size: 18px;
     line-height: 30px;
-    color: #000000;
+    color: var(--black-color);
     margin-right: auto;
   }
   &__end {
@@ -18,7 +18,7 @@
     font-weight: 400;
     font-size: 18px;
     line-height: 30px;
-    color: #000000;
+    color: var(--black-color);
     opacity: 0.5;
     float: right;
   }

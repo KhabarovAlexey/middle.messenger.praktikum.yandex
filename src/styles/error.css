@@ -6,7 +6,7 @@
     font-weight: 500;
     font-size: 40px;
     line-height: 40px;
-    color: #000000;
+    color: var(--black-color);
     margin-top: 285px;
   }
 
@@ -16,7 +16,7 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 20px;
-    color: #1e1e1e;
+    color: var(--black-color);
     margin-top: 11px;
   }
   &__button-link {
@@ -26,7 +26,7 @@
     font-weight: 400;
     font-size: 13px;
     line-height: 30px;
-    color: #007bff;
+    color: var(--primary-color);
     border: none;
     display: block;
     margin: 0 auto;

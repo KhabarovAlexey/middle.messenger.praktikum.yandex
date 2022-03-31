@@ -10,7 +10,7 @@
   }
   &__message {
     height: 30px;
-    background: rgba(0, 123, 255, 0.3);
+    background: var(--dark-blue-color);
     border-radius: 8px;
     margin-right: 20px;
     margin-left: 20px;
@@ -21,7 +21,7 @@
     font-weight: 400;
     font-size: 18px;
     line-height: 30px;
-    color: #a5a0a0;
+    color: var(--grey-color);
   }
   &__button-send {
     background: #007bff url('../static/img/Vector 2.png') no-repeat;
