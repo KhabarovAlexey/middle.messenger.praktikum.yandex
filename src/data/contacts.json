@@ -1,0 +1,51 @@
+[
+  {
+    "avatar": "url",
+    "name": "Name1",
+    "message": "Солнышко светит, реченька блестит, по ...",
+    "time": "12:00",
+    "notification": 1
+  },
+  {
+    "avatar": "url",
+    "name": "Name2",
+    "message": "Изображение",
+    "time": "12:00",
+    "notification": 2
+  },
+  {
+    "avatar": "url",
+    "name": "Name3",
+    "message": "классно получилось",
+    "time": "12:00",
+    "notification": null
+  },
+  {
+    "avatar": "url",
+    "name": "Name4",
+    "message": "Я все купила, жду только тебя",
+    "time": "12:00",
+    "notification": null
+  },
+  {
+    "avatar": "url",
+    "name": "Name4",
+    "message": "Я все купила, жду только тебя",
+    "time": "12:00",
+    "notification": 1
+  },
+  {
+    "avatar": "url",
+    "name": "Name4",
+    "message": "Я все купила, жду только тебя",
+    "time": "12:00",
+    "notification": null
+  },
+  {
+    "avatar": "url",
+    "name": "Name4",
+    "message": "Я все купила, жду только тебя",
+    "time": "12:00",
+    "notification": null
+  }
+]
