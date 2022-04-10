@@ -1,0 +1,34 @@
+.buttontextarea__button-adds {
+  background: url('../../static/img/Group 196.png') no-repeat;
+  background-position: 0 1px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  padding: 5px;
+}
+.textarea__message{
+  height: 30px;
+  background: var(--dark-blue-color);
+  border-radius: 8px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.textarea__message::placeholder {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  color: var(--grey-color);
+}
+.buttontextarea__button-send {
+  background: #007bff url('../../static/img/Vector 2.png') no-repeat;
+  background-position: 12px 10px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  margin-top: 1px;
+}

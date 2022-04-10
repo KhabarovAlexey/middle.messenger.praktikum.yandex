@@ -1,0 +1,15 @@
+.input__input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  display: block;
+  /* position: relative; */
+  /* top: 40px; */
+  border-bottom: 1px solid var(--grey-color);
+}
+
+.input__label {
+  display: block;
+  position: relative;
+  top: -35px
+}

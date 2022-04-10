@@ -1,0 +1,25 @@
+:root {
+  --message-background: #1f9af3;
+  --message-color: #fff;
+  --message-my-background: #e2f0fa;
+  --message-my-color: #000;
+  --screen-content-background: #fff;
+
+  --screen-width: 320px;
+  --screen-height: 560px;
+
+  --message-border-radius: 20px;
+
+  --screen-background: #e2f0fa;
+  --screen-content-background: #fff;
+
+  --grey-color: #a5a0a0;
+  --primary-color: #007bff;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --dark-blue-color: rgba(0, 123, 255, 0.3);
+
+  --error-color: rgba(241, 18, 18, 0.8);
+
+  --chat-tape: rgba(0, 123, 255, 0.05);
+}

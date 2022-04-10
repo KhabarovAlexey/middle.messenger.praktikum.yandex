@@ -1,0 +1,15 @@
+.link__small {
+  border: none;
+  display: block;
+  width: 230px;
+  margin: 0 auto;
+  align-items: center;
+  text-align: center;
+  background: none;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 30px;
+  color: var(--primary-color);
+}

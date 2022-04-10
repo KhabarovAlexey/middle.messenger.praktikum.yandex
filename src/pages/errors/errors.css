@@ -1,0 +1,24 @@
+.error {
+  text-align: center;
+}
+.error__code {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 40px;
+  color: var(--black-color);
+  margin-top: 285px;
+  margin-bottom: 0;
+}
+
+.error__description {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--black-color);
+  margin-top: 11px;
+  margin-bottom: 5  px;
+}

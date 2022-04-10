@@ -1,0 +1,106 @@
+.chat_container {
+  display: grid;
+  grid-template-columns: 20% auto;
+  height: 100vh;
+}
+.chat_container__tape {
+  background: var(--chat-tape);
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+.chat_container__tape a {
+  background: url('../../static/img/profile_link_icon.png') right no-repeat;
+  display: flex;
+  justify-content: right;
+  border: none;
+  margin-left: auto;
+  margin-right: 30px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  align-items: center;
+  color: var(--grey-color);
+  padding-right: 14px;
+}
+
+.chat_container__dialog {
+  padding: 5px 20px;
+  display: grid;
+  grid-template-rows: 5% auto 7%;
+}
+
+.chat_container__dialog__contact {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  display: grid;
+  grid-template-columns: 7% 10% auto;
+  border-bottom: 1px solid var(--grey-color);
+  height: 60px;
+}
+.chat_container__dialog__contact__avatar {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background: url('../../static/img/Ellipse 1.png') no-repeat;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+  display: block;
+  margin: auto;
+}
+.chat_container__dialog__contact__name {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  color: var(--black-color);
+  display: flex;
+  text-align: left;
+  align-items: center;
+}
+.chat_container__dialog__contact__menu {
+  grid-column-start: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background: url('../../static/img/Group 3.png') no-repeat;
+  background-position: 0px 15px;
+  width: 30px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: 0;
+}
+.chat_container__dialog__dialog {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  padding: 20px 0px 5px;
+}
+.chat_container__dialog__textarea {
+  grid-row-start: 3;
+  display: grid;
+  grid-template-columns: 2% auto 2%;
+  border-top: 1px solid var(--grey-color);
+  height: 60px;
+  padding: 15px 20px;
+}
+.message p {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--grey-color);
+}
