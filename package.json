@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "start": "parcel src/index.html --no-source-maps",
-    "server": "node server.js"
+    "dev": "parcel src/index.html --no-source-maps",
+    "server": "node server.js",
+    "build": "src/index.html --no-cache",
+    "start": "npm run build && node server.js"
   },
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "^1.0.2",
