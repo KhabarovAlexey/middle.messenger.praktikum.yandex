@@ -203,7 +203,7 @@ export class RegistrationPage extends Block {
               }}}
             </div>
             {{{Button text="Create account" className="__button" onClick=onSubmit}}}
-            {{{Link text='Sign in' link='/login'}}}
+            {{{Link text='Sign in' link='#login'}}}
           </from>
         </div>
       </div>`;

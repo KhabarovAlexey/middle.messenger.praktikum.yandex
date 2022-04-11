@@ -90,6 +90,9 @@
   opacity: 0.5;
   vertical-align: top;
   text-align: right;
+  outline: none;
+  border: none;
+  width: 100%;
 }
 button {
   position: relative;

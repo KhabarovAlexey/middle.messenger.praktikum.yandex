@@ -13,7 +13,7 @@ export class ChatPage extends Block {
     return `
     <div class="chat_container">
       <div class="chat_container__tape">
-        {{{Link text='Profile' link='/profile'}}}
+        {{{Link text='Profile' link='/#profile'}}}
         {{{Search}}}
         <div class="chat_container__chats_list">
           {{#each contacts}}

@@ -3,13 +3,22 @@
   box-sizing: border-box;
   border: 0;
   display: block;
-  /* position: relative; */
-  /* top: 40px; */
+  outline: none;
+  border: none;
+  width: 100%;
   border-bottom: 1px solid var(--grey-color);
 }
 
 .input__label {
   display: block;
   position: relative;
-  top: -35px
+  top: -35px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  color: var(--grey-color);
 }

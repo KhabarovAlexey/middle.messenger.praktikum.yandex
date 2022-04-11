@@ -24,6 +24,8 @@
   color: var(--black-color);
   display: flex;
   text-align: left;
+  margin: 0;
+  align-items: center;
 }
 .contact__message {
   font-family: 'Roboto';
@@ -34,6 +36,8 @@
   color: var(--grey-color);
   display: flex;
   text-align: left;
+  margin: 0;
+  align-items: center;
 }
 .contact__active {
   display: grid;

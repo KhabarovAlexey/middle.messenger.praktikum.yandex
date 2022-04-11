@@ -10,6 +10,7 @@
   background-position: 10px !important;
   box-sizing: border-box;
   display: block;
+  outline: none;
 }
 .search-form__input::placeholder {
   font-family: 'Roboto';

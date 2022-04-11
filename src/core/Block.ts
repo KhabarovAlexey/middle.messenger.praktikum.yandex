@@ -40,7 +40,7 @@ export default class Block<P = any> {
     this.props = this._makePropsProxy(props || ({} as P));
     this.state = this._makePropsProxy(this.state);
 
-    this.eventBus = new EventBus();
+    this.eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
 
@@ -162,14 +162,13 @@ export default class Block<P = any> {
   _makePropsProxy(props: any): any {
     // Можно и так передать this
     // Такой способ больше не применяется с приходом ES6+
-    const self = this;
 
     return new Proxy(props as unknown as object, {
       get(target: Record<string, unknown>, prop: string) {
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set: (target: Record<string, unknown>, prop: string, value: unknown) => {
+      set:(target: Record<string, unknown>, prop: string, value: unknown) => {
         target[prop] = value;
 
         // Запускаем обновление компоненты

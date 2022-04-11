@@ -45,6 +45,7 @@ export class LoginPage extends Block {
         nextState.errors.password = validate('password', loginData.password);
 
         this.setState(nextState);
+        location.hash = '#chat';
 
         if (Object.values(nextState.errors).every((err) => !err)) {
           console.log('action/login', loginData);
@@ -95,7 +96,7 @@ export class LoginPage extends Block {
               }}}
             </div>
             {{{Button text="Sign in" className="__button" onClick=onLogin}}}
-            {{{Link text='Create account' link='/registration'}}}
+            {{{Link text='Create account' link='#registration'}}}
           </from>
         </div>
       </div>`;

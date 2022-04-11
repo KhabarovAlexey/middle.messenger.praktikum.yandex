@@ -16,23 +16,23 @@ Object.values(components).forEach((component) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  switch (window.location.pathname) {
-    case '/login':
+  switch (document.location.hash) {
+    case '#login':
       renderDOM(LoginPage);
       break;
-    case '/registration':
+    case '#registration':
       renderDOM(RegistrationPage);
       break;
-    case '/profile':
+    case '#profile':
       renderDOM(ProfilePage);
       break;
-    case '/chat':
+    case '#chat':
       renderDOM(ChatPage);
       break;
-    case '/404':
+    case '#404':
       renderDOM(Error404);
       break;
-    case '/500':
+    case '#500':
       renderDOM(Error500);
       break;
     default:

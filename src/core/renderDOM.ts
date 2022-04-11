@@ -5,6 +5,6 @@ export default function renderDOM(BlockPage: typeof Block) {
 
   const root = document.querySelector('#app');
   
-  root?.innerHTML = '';
-  root?.appendChild(block.getContent());
+  root!.innerHTML = '';
+  root!.appendChild(block.getContent());
 }
