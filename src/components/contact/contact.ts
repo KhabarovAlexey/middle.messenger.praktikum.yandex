@@ -9,10 +9,12 @@ interface ContactProps {
   notification?: number;
   onClick?: () => void;
 }
+
 export class Contact extends Block {
   constructor({ name, message, time, notification, onClick }: ContactProps) {
     super({ name, message, time, notification, events: { click: onClick } });
   }
+
   render() {
     // language=hbs
     return `
