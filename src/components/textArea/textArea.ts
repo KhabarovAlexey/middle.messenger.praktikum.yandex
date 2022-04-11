@@ -8,7 +8,7 @@ export class TextArea extends Block {
     return `
     <div>
       {{{Button className="textarea__button-adds"}}}
-        <textarea class="textarea__message" id="message" name="message" rows="5" cols="33" placeholder="Message"></textarea>
+      <textarea class="textarea__message" id="message" name="message" rows="5" cols="33" placeholder="Message"></textarea>
       {{{Button className="textarea__button-send"}}}
     </div>`;
   }
