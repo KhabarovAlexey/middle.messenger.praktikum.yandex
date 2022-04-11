@@ -20,3 +20,4 @@ https://compassionate-noyce-c28fce.netlify.app/
 https://github.com/KhabarovAlexey/middle.messenger.praktikum.yandex/pull/1
 
 ## PR2
+https://github.com/KhabarovAlexey/middle.messenger.praktikum.yandex/pull/2
