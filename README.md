@@ -13,7 +13,7 @@ https://www.figma.com/file/hIyrmim29KwHiuT8laon6S/yandex-chat
 
 ## Домен Netlify 
 
-https://compassionate-noyce-c28fce.netlify.app/
+https://6254a9d0b50d94000821b7d8--compassionate-noyce-c28fce.netlify.app/
 
 ## PR1
 
