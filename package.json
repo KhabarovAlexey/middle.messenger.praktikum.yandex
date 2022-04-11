@@ -8,6 +8,13 @@
     "server": "node server.js",
     "start": "npm run build && npm run server "
   },
+  "targets": {
+    "default": {
+      "engines": {
+        "browsers": ">= 5%"
+      }
+    }
+  },
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "1.0.2",
     "@parcel/config-default": "2.3.2",
@@ -27,13 +34,6 @@
   },
   "engines": {
     "node": ">=12.0.0"
-  },
-  "targets": {
-    "default": {
-      "engines": {
-        "browsers": ">= 50%"
-      }
-    }
   },
   "dependencies": {
     "express": "4.17.3",
