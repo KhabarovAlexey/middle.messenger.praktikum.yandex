@@ -106,7 +106,7 @@ export default class Block<P = any> {
   retrieveChildByRef = (ref: string) => {
 
     const childBlocks = Object.values(this.children).filter(
-      (c) => c.element === this.refs[ref]
+      (child) => child.element === this.refs[ref]
     );
     if (childBlocks.length !== 1) {
       console.warn(
