@@ -4,14 +4,14 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "dev": "parcel src/index.html --no-source-maps",
-    "build": "parcel build src/index.html --no-cache --no-minify --no-source-maps",
+    "build": "parcel build src/index.html --no-cache --no-source-maps",
     "server": "node server.js",
     "start": "npm run build && npm run server "
   },
   "targets": {
     "default": {
       "engines": {
-        "browsers": ">= 5%"
+        "browsers": ">= 50%"
       }
     }
   },
