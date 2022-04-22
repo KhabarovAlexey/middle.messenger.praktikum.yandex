@@ -1,7 +1,4 @@
 {
   "extends": "stylelint-config-standard",
-  "rules": {
-    "color-hex-case": "lower"
-  },
   "ignoreFiles": ["dist/*", "parcel-cache/*", "node_modules/*", ".vscode/*"]
 }
