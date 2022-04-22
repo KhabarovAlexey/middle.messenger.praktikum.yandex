@@ -1,0 +1,4 @@
+{
+  "extends": "stylelint-config-standard",
+  "ignoreFiles": ["dist/*", "parcel-cache/*", "node_modules/*", ".vscode/*"]
+}
