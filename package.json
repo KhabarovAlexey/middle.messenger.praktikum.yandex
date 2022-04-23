@@ -8,6 +8,17 @@
     "server": "node server.js",
     "start": "npm run build && npm run server "
   },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "alias": {
+    "core": "./src/core",
+    "pages": "./src/pages",
+    "store": "./src/store",
+    "services": "./src/services",
+    "utils": "./src/utils",
+    "api": "./src/api"
+  },
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "1.0.2",
     "@parcel/config-default": "2.3.2",
@@ -27,7 +38,7 @@
     "typescript": "4.6.3"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "targets": {
     "default": {

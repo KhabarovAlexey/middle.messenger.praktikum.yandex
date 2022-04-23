@@ -1,11 +1,18 @@
-import { Block, renderDOM, registerComponent } from './core';
-import LoginPage from './pages/login';
-import RegistrationPage from './pages/registration';
-import ProfilePage from './pages/profile';
-import ChatPage from './pages/chat';
-import { Error500, Error404 } from './pages/errors/errors';
+import { Block, registerComponent, Router, Store } from 'core';
+import LoginPage from 'pages/login';
+import RegistrationPage from 'pages/registration';
+import ProfilePage from 'pages/profile';
+import ChatPage from 'pages/chat';
+import { Error500, Error404 } from 'pages/errors/errors';
 
 import './app.css';
+
+declare global {
+  interface Window {
+    store: Store<AppState>;
+    router: Router;
+  }
+}
 
 const components = require('./components/**/index.ts') as {
   [key: string]: { default: typeof Block };
@@ -16,27 +23,35 @@ Object.values(components).forEach((component) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  switch (document.location.hash) {
-    case '#login':
-      renderDOM(LoginPage);
-      break;
-    case '#registration':
-      renderDOM(RegistrationPage);
-      break;
-    case '#profile':
-      renderDOM(ProfilePage);
-      break;
-    case '#chat':
-      renderDOM(ChatPage);
-      break;
-    case '#404':
-      renderDOM(Error404);
-      break;
-    case '#500':
-      renderDOM(Error500);
-      break;
-    default:
-      renderDOM(LoginPage);
-      break;
-  }
+
+  // const store = new Store<AppState>(defaultState);
+  const router = new Router('#app');
+  window.router = router;
+  // window.store = store;
+
+  // store.on('changed', (prevState, nextState) => {
+  //   if (process.env.DEBUG) {
+  //     console.log(
+  //       '%cstore updated',
+  //       'background: #222; color: #bada55',
+  //       nextState,
+  //     );
+  //     console.log(JSON.stringify(diffObjectsDeep.map(prevState, nextState)));
+  //   }
+
+  //   if (prevState.screen !== nextState.screen) {
+  //     const Page = getScreenComponent(nextState.screen);
+  //     renderDOM(new Page());
+  //   }
+  // });
+
+  router
+  .use('/login', LoginPage, {})
+  .use('/registration', RegistrationPage, {})
+  .use('/profile', ProfilePage, {})
+  .use('/chat', ChatPage, {})
+  .use('/404', Error404, {})
+  .use('/500', Error500, {})
+  .start();
+
 });

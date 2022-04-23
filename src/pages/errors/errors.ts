@@ -1,4 +1,4 @@
-import { Block } from '../../core';
+import Block from 'core/Block';
 import './errors.css';
 
 export class Error404 extends Block {

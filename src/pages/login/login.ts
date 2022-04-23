@@ -1,5 +1,5 @@
-import Block from '../../core/Block';
-import { validate } from '../../utils/validate';
+import Block from 'core/Block';
+import { validate } from 'utils/validate';
 import './login.css';
 
 export class LoginPage extends Block {

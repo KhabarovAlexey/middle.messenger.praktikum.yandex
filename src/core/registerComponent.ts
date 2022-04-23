@@ -1,4 +1,4 @@
-import Block from './Block';
+import Block from 'core/Block';
 import Handlebars, { HelperOptions } from 'handlebars';
 
 interface BlockConstructable<Props = any> {

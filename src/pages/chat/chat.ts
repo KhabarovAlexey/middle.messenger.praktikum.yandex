@@ -1,4 +1,4 @@
-import { Block } from '../../core';
+import Block from 'core/Block';
 import './chat.css';
 import data from '../../static/data/contacts.json';
 
