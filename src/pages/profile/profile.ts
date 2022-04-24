@@ -264,7 +264,7 @@ export class ProfilePage extends Block {
           </div>
         {{/each}}
       </div>
-      {{{Link text='Back to chat' link='#chat'}}}
+      {{{Link text='Back to chat' link='/chat'}}}
     </div>`;
   }
 }
