@@ -1,43 +1,34 @@
-import EventBus from 'core/EventBus';
+/* eslint-disable no-shadow */
+import EventBus from './EventBus'
 
-export type Dispatch<State> = (
-  nextStateOrAction: Partial<State> | Action<State>,
-  payload?: any,
-) => void;
+type TState = Record<string, any>
 
-export type Action<State> = (
-  dispatch: Dispatch<State>,
-  state: State,
-  payload: any,
-) => void;
+export enum StoreEvents {
+  Updated = 'updated',
+}
 
-export class Store<State extends Record<string, any>> extends EventBus {
-  private state: State = {} as State;
+class Store extends EventBus {
+  public state: Indexed = {}
 
-  constructor(defaultState: State) {
-    super();
-
-    this.state = defaultState;
-    this.set(defaultState);
+  constructor() {
+    super()
+    this.state = {}
   }
 
   public getState() {
-    return this.state;
+    return this.state
   }
 
-  public set(nextState: Partial<State>) {
-    const prevState = { ...this.state };
-
-    this.state = { ...this.state, ...nextState };
-
-    this.emit('changed', prevState, nextState);
-  }
-
-  dispatch(nextStateOrAction: Partial<State> | Action<State>, payload?: any) {
-    if (typeof nextStateOrAction === 'function') {
-      nextStateOrAction(this.dispatch.bind(this), this.state, payload);
-    } else {
-      this.set({ ...this.state, ...nextStateOrAction });
+  public set(nextState: TState) {
+    if (!nextState) {
+      return
     }
+    this.state = {
+      ...this.state,
+      ...nextState,
+    }
+    this.emit(StoreEvents.Updated)
   }
 }
+
+export default new Store()

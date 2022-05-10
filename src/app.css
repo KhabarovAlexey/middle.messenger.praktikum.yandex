@@ -109,7 +109,7 @@ a:hover {
   text-decoration: underline;
 }
 
-#app {
+.app {
   width: 100%;
   margin: 0 auto;
 }

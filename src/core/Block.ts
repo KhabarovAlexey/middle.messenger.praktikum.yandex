@@ -1,6 +1,6 @@
-import EventBus from 'core/EventBus';
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
+import EventBus from './EventBus';
 
 interface BlockMeta<P = any> {
   props: P;
@@ -16,16 +16,22 @@ export default class Block<P = any> {
     FLOW_RENDER: 'flow:render',
   } as const;
 
+  static nameOfComponent = 'Block';
+
   public id = nanoid(6);
+
   private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
-  protected readonly props: P;
+
+  protected props: P;
+
   protected children: { [id: string]: Block } = {};
 
   eventBus: () => EventBus<Events>;
 
   protected state: any = {};
+
   protected refs: { [key: string]: HTMLElement } = {};
 
   public constructor(props?: P) {
@@ -74,6 +80,9 @@ export default class Block<P = any> {
   componentDidMount(props: P) {}
 
   _componentDidUpdate(oldProps: P, newProps: P) {
+    if (this._element && this._element.style.display === 'none') {
+      return;
+    }
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -81,7 +90,7 @@ export default class Block<P = any> {
     this._render();
   }
 
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate(oldProps?: P, newProps?: P) {
     return true;
   }
 
@@ -93,29 +102,6 @@ export default class Block<P = any> {
     Object.assign(this.props, nextProps);
   };
 
-  setChildProps = (childRefName: string, nextProps: P) => {
-
-    if (!nextProps || !childRefName) {
-      return;
-    }
-    const childComponent = this.retrieveChildByRef(childRefName);
-    childComponent.setProps(nextProps);
-    this.refs[childRefName] = childComponent.getContent();
-  };
-
-  retrieveChildByRef = (ref: string) => {
-
-    const childBlocks = Object.values(this.children).filter(
-      (child) => child.element === this.refs[ref]
-    );
-    if (childBlocks.length !== 1) {
-      console.warn(
-        `1 Ref with Name ${ref} is expected but was: ${childBlocks}`
-      );
-    }
-    return childBlocks[0];
-  };
-
   setState = (nextState: any) => {
     if (!nextState) {
       return;
@@ -124,18 +110,39 @@ export default class Block<P = any> {
     Object.assign(this.state, nextState);
   };
 
+  setChildProps = (childRefName: string, nextProps: P) => {
+    if (!nextProps || !childRefName) {
+      return;
+    }
+    console.log('childRefName', childRefName);
+    console.log('nextProps', nextProps);
+
+    const childComponent = this.retrieveChildByRef(childRefName);
+    console.log('childComponent', childComponent);
+    
+    childComponent.setProps(nextProps);
+    this.refs[childRefName] = childComponent.getContent();
+  };
+
+  retrieveChildByRef = (ref: string) => {
+    const childBlocks = Object.values(this.children).filter((c) => c.element === this.refs[ref]);
+    console.log('childBlocks', childBlocks);
+    
+    if (childBlocks.length !== 1) {
+      console.warn(`1 Ref with Name ${ref} is expected but was: ${childBlocks}`);
+    }
+    return childBlocks[0];
+  };
+
   get element() {
     return this._element;
   }
 
   _render() {
     const fragment = this._compile();
-
     this._removeEvents();
     const newElement = fragment.firstElementChild!;
-
     this._element!.replaceWith(newElement);
-
     this._element = newElement as HTMLElement;
     this._addEvents();
   }
@@ -148,9 +155,7 @@ export default class Block<P = any> {
     // Хак, чтобы вызвать CDM только после добавления в DOM
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       setTimeout(() => {
-        if (
-          this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
-        ) {
+        if (this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
           this.eventBus().emit(Block.EVENTS.FLOW_CDM);
         }
       }, 100);
@@ -162,18 +167,19 @@ export default class Block<P = any> {
   _makePropsProxy(props: any): any {
     // Можно и так передать this
     // Такой способ больше не применяется с приходом ES6+
+    const self = this;
 
     return new Proxy(props as unknown as object, {
       get(target: Record<string, unknown>, prop: string) {
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set:(target: Record<string, unknown>, prop: string, value: unknown) => {
+      set(target: Record<string, unknown>, prop: string, value: unknown) {
         target[prop] = value;
 
         // Запускаем обновление компоненты
         // Плохой cloneDeep, в след итерации нужно заставлять добавлять cloneDeep им самим
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
         return true;
       },
       deleteProperty() {
@@ -187,6 +193,7 @@ export default class Block<P = any> {
   }
 
   _removeEvents() {
+    // eslint-disable-next-line prefer-destructuring
     const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events || !this._element) {
@@ -199,12 +206,12 @@ export default class Block<P = any> {
   }
 
   _addEvents() {
+    // eslint-disable-next-line prefer-destructuring
     const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events) {
       return;
     }
-
     Object.entries(events).forEach(([event, listener]) => {
       this._element!.addEventListener(event, listener);
     });
@@ -250,10 +257,17 @@ export default class Block<P = any> {
   }
 
   show() {
-    this.getContent().style.display = 'block';
+    this.getContent().style.display = 'flex';
   }
 
   hide() {
     this.getContent().style.display = 'none';
   }
+
+  public destroy() {
+    this._element?.remove();
+    this.onDestroy();
+  }
+
+  public onDestroy() {}
 }

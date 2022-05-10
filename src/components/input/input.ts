@@ -10,34 +10,15 @@ interface InputProps {
   id?: string;
   label?: string;
   className?: string;
-  onChange?: () => void;
-  onFocus?: () => void;
-  onBlur?: () => void;
+  events: { [key: string]: () => {} }
+  errorName: string,
 }
 
 export class Input extends Block {
-  constructor({
-    type = 'text',
-    placeholder,
-    value,
-    error,
-    id,
-    label,
-    className,
-    onChange,
-    onFocus,
-    onBlur,
-  }: InputProps) {
-    super({
-      type,
-      placeholder,
-      value,
-      error,
-      id,
-      label,
-      className,
-      events: { input: onChange, focusin: onFocus, focusout: onBlur },
-    });
+  static nameOfComponent = 'Input'
+
+  constructor(props: InputProps) {
+    super(props)
   }
 
   protected render(): string {

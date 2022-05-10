@@ -1,8 +1,9 @@
 import Block from 'core/Block';
 import { validate } from 'utils/validate';
+import { connect } from 'utils/connect';
 import './registration.css';
 
-export class RegistrationPage extends Block {
+class RegistrationPage extends Block {
   protected getStateFromProps() {
     this.state = {
       values: {
@@ -203,9 +204,18 @@ export class RegistrationPage extends Block {
               }}}
             </div>
             {{{Button text="Create account" className="__button" onClick=onSubmit}}}
-            {{{Link text='Sign in' link='#login'}}}
+            {{{Link text='Sign in' link='/'}}}
           </from>
         </div>
       </div>`;
   }
 }
+
+
+const mapStateToProps = (state: Indexed) => ({
+  error: state.error,
+  user: state.user,
+  isLoading: state.isLoading,
+});
+
+export default connect(mapStateToProps)(RegistrationPage);

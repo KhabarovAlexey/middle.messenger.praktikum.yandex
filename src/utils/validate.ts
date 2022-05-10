@@ -84,3 +84,7 @@ const validation: Validation = {
 export function validate(key: string, value: string) {
   return validation[key](value);
 }
+
+export function isValid(data: TStringObject) {
+  return Object.entries(data).every(([key, value]) => !validate(key, value as string));
+}

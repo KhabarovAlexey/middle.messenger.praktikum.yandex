@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-shadow
 enum METHOD {
   GET = 'GET',
   POST = 'POST',
@@ -6,71 +7,115 @@ enum METHOD {
   DELETE = 'DELETE',
 }
 
-type Options = {
-  method: METHOD;
-  data?: any;
-};
+type TOptions = {
+  method: METHOD
+  headers?: Record<string, string>
+  responseType?: 'json' | 'text' | 'blob' | 'document' | 'arraybuffer' | ''
+  timeout?: number
+  data?: Record<string, any> | {} | null
+  includeCredentials: boolean
+}
+
+type OptionsWithoutMethod = Omit<TOptions, 'method'>
 
 function queryStringify(data: any) {
   if (!data) {
-    return '';
+    return ''
   }
   return Object.entries(data).reduce((acc, cur, index, array) => {
-    const isLast = array.length - 1 === index;
-    const isAmpersand = isLast ? '' : '&';
-    return acc + cur.join('=') + isAmpersand;
-  }, '?');
+    const isLast = array.length - 1 === index
+    const isAmpersand = isLast ? '' : '&'
+    return acc + cur.join('=') + isAmpersand
+  }, '?')
 }
 
-// Тип Omit принимает два аргумента: первый — тип, второй — строка
-// и удаляет из первого типа ключ, переданный вторым аргументом
-type OptionsWithoutMethod = Omit<Options, 'method'>;
-// Этот тип эквивалентен следующему:
-// type OptionsWithoutMethod = { data?: any };
-
 export default class HTTPTransport {
-  get(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.GET });
+  url: string
+
+  constructor(url: string) {
+    this.url = url
   }
 
-  post(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.POST });
+  get(url: string, options: OptionsWithoutMethod): Promise<XMLHttpRequest> {
+    return this.request(`${process.env.API_ENDPOINT}/${this.url}/${url}`, {
+      ...options,
+      method: METHOD.GET,
+    })
   }
 
-  put(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.PUT });
+  post(url: string, options: OptionsWithoutMethod): Promise<XMLHttpRequest> {
+    return this.request(`${process.env.API_ENDPOINT}/${this.url}/${url}`, {
+      ...options,
+      method: METHOD.POST,
+    })
   }
 
-  patch(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.PATCH });
+  put(url: string, options: OptionsWithoutMethod): Promise<XMLHttpRequest> {
+    return this.request(`${process.env.API_ENDPOINT}/${this.url}/${url}`, {
+      ...options,
+      method: METHOD.PUT,
+    })
   }
 
-  delete(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.DELETE });
+  patch(url: string, options: OptionsWithoutMethod): Promise<XMLHttpRequest> {
+    return this.request(`${process.env.API_ENDPOINT}/${this.url}/${url}`, {
+      ...options,
+      method: METHOD.PATCH,
+    })
   }
 
-  request(url: string, options: Options, timeout: number = 5000): Promise<XMLHttpRequest> {
-    const { method, data } = options;
-    const isGet = method === METHOD.GET;
+  delete(url: string, options: OptionsWithoutMethod): Promise<XMLHttpRequest> {
+    return this.request(`${process.env.API_ENDPOINT}/${this.url}/${url}`, {
+      ...options,
+      method: METHOD.DELETE,
+    })
+  }
+
+  request(
+    url: string,
+    options: TOptions,
+    timeout: number = 5000,
+    responseType = 'json',
+  ): Promise<XMLHttpRequest> {
+    const {
+      method, data, headers, includeCredentials,
+    } = options
+    const isGet = method === METHOD.GET
     return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest()
 
-      xhr.open(method, isGet ? `${url}${queryStringify(data)}` : url);
+      xhr.open(method, isGet ? `${url}${queryStringify(data)}` : url)
+      xhr.withCredentials = includeCredentials
 
-      xhr.onload = function () {
-        resolve(xhr);
-      };
-      xhr.onabort = reject;
-      xhr.onerror = reject;
-      xhr.timeout = timeout;
-      xhr.ontimeout = reject;
+      xhr.responseType = responseType as XMLHttpRequestResponseType
+      if (headers) {
+        Object.entries(headers).forEach(([key, value]) => {
+          xhr.setRequestHeader(key, value as string)
+        })
+      }
+      xhr.onload = () => {
+        if (xhr.status >= 400) {
+          reject(xhr.response)
+        } else {
+          resolve(xhr.response)
+        }
+      }
+      xhr.onabort = () => {
+        reject(xhr.response)
+      }
+      xhr.onerror = () => {
+        reject(xhr.response)
+      }
+      xhr.timeout = timeout
+      xhr.ontimeout = () => {
+        reject(xhr.response)
+      }
 
       if (isGet) {
-        xhr.send();
+        xhr.send()
       } else {
-        const json = JSON.stringify(data);
-        xhr.send(json);
+        xhr.send(data as any)
       }
-    });
+    })
   }
 }

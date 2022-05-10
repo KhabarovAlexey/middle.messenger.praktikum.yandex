@@ -1,12 +1,13 @@
-import Block from 'core/Block';
 import Handlebars, { HelperOptions } from 'handlebars';
+import Block from 'core/Block';
 
 interface BlockConstructable<Props = any> {
-  new(props: Props): Block;
+  new (props: Props): Block;
+  nameOfComponent: string;
 }
 
-export default function registerComponent<Props = any>(Component: BlockConstructable) {
-  Handlebars.registerHelper(Component.name, function ({ hash: { ref, ...hash }, data }: HelperOptions) {
+export default function registerComponent(Component: BlockConstructable) {
+  Handlebars.registerHelper(Component.nameOfComponent, ({ hash: { ref, ...hash }, data }: HelperOptions) => {
     if (!data.root.children) {
       data.root.children = {};
     }
@@ -26,5 +27,5 @@ export default function registerComponent<Props = any>(Component: BlockConstruct
     }
 
     return `<div data-id="${component.id}"></div>`;
-  })
+  });
 }

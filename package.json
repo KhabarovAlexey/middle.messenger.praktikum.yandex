@@ -1,16 +1,12 @@
 {
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "dev": "parcel src/index.html --no-source-maps",
     "build": "parcel build src/index.html --no-cache --no-source-maps",
     "server": "node server.js",
     "start": "npm run build && npm run server "
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "alias": {
     "core": "./src/core",
     "pages": "./src/pages",
@@ -20,25 +16,41 @@
     "api": "./src/api"
   },
   "devDependencies": {
-    "@anikin/parcel-transformer-handlebars": "1.0.2",
+    "@babel/core": "7.17.9",
+    "@babel/preset-typescript": "7.16.7",
+    "@babel/register": "7.17.7",
+    "@parcel/babel-preset-env": "2.5.0",
     "@parcel/config-default": "2.3.2",
-    "@parcel/resolver-glob": "2.5.0",
-    "@types/node": "17.0.23",
-    "@typescript-eslint/eslint-plugin": "5.18.0",
-    "@typescript-eslint/parser": "5.18.0",
-    "eslint": "8.12.0",
-    "eslint-config-airbnb": "19.0.4",
-    "eslint-import-resolver-typescript": "2.7.1",
-    "parcel": "^2.5.0",
-    "parcel-plugin-handlebars-precompile": "1.0.2",
-    "postcss": "8.4.12",
-    "postcss-import": "12.0.1",
-    "postcss-nested": "5.0.6",
+    "@parcel/resolver-glob": "2.4.0",
+    "@parcel/transformer-js": "^2.5.0",
+    "@parcel/transformer-react-refresh-wrap": "^2.5.0",
+    "@parcel/transformer-sass": "2.3.2",
+    "@types/chai": "4.3.0",
+    "@types/handlebars": "4.1.0",
+    "@types/mocha": "9.1.0",
+    "@types/node": "17.0.29",
+    "@typescript-eslint/eslint-plugin": "5.16.0",
+    "@typescript-eslint/parser": "5.17.0",
+    "assert": "2.0.0",
+    "chai": "4.3.6",
+    "console-browserify": "1.2.0",
+    "eslint": "8.11.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0",
+    "global-jsdom": "8.4.0",
+    "jsdom": "19.0.0",
+    "mocha": "9.2.2",
+    "parcel": "2.5.0",
+    "prettier": "2.6.1",
+    "process": "0.11.10",
     "stylelint": "14.6.1",
-    "typescript": "4.6.3"
-  },
-  "engines": {
-    "node": ">=16.0.0"
+    "stylelint-config-prettier": "9.0.3",
+    "stylelint-config-standard-scss": "3.0.0",
+    "stylelint-prettier": "2.0.0",
+    "stylelint-scss": "4.2.0",
+    "ts-node": "10.7.0",
+    "typescript": "4.6.3",
+    "util": "0.12.4"
   },
   "targets": {
     "default": {
@@ -48,8 +60,9 @@
     }
   },
   "dependencies": {
+    "dotenv": "16.0.0",
     "express": "4.17.3",
     "handlebars": "4.7.7",
-    "nanoid": "3.3.1"
+    "nanoid": "3.3.2"
   }
 }

@@ -1,108 +1,113 @@
-import { isEqual } from 'utils/isEqual';
-import renderDOM from 'core/renderDOM';
-import Block from 'core/Block';
+import Block from 'core/Block'
+import Route from 'core/Route'
 
-class Route {
-  private _pathname: string;
-  private _blockClass: typeof Block;
-  private _block: Block | null;
-  private _props: TStringObject;
+export default class Router {
+  private static __instance: Router
 
-  constructor(pathname: string, view: typeof Block, props: TStringObject) {
-    this._pathname = pathname;
-    this._blockClass = view;
-    this._block = null;
-    this._props = props;
-  }
+  private _currentRoute: Route | null | undefined
 
-  navigate(pathname: string) {
-    if (this.match(pathname)) {
-      this._pathname = pathname;
-      this.render();
-    }
-  }
+  public history: History = window.history
 
-  leave() {
-    if (this._block) {
-      this._block.hide();
-    }
-  }
+  protected routes: Route[] = []
 
-  match(pathname: string) {
-    return isEqual(pathname, this._pathname);
-  }
+  private readonly _rootQuery: string | undefined
 
-  render() {
-    if (!this._block) {
-      this._block = new this._blockClass();
-      renderDOM(this._block);
-      return;
-    }
-    this._block.show();
-  }
-}
+  private _pathnames: string[] | undefined
 
-export class Router {
-  private static __instance: Router;
-  protected routes: Route[] = [];
-  protected history: History = window.history;
-  private _currentRoute: Route | null | undefined;
-  private readonly _rootQuery: string | undefined;
+  private _onRouteCallback: (() => void) | undefined
+
+  private _unprotectedPaths: `/${string}`[] | undefined
 
   constructor(rootQuery: string) {
     if (Router.__instance) {
-      return Router.__instance;
+      return Router.__instance
     }
 
-    this.routes = [];
-    this.history = window.history;
-    this._currentRoute = null;
-    this._rootQuery = rootQuery;
+    this.routes = []
+    this.history = window.history
+    this._currentRoute = null
+    this._rootQuery = rootQuery
+    this._pathnames = []
+    this._onRouteCallback = () => {}
+    this._unprotectedPaths = []
+    Router.__instance = this
+  }
 
-    Router.__instance = this;
+  get currentRoute() {
+    return this._currentRoute;
   }
 
   use(pathname: string, block: typeof Block, props: TStringObject) {
-    const route = new Route(pathname, block, { ...props, rootQuery: this._rootQuery });
-    this.routes.push(route);
-    return this;
+    const route = new Route(pathname, block, {
+      ...props,
+      rootQuery: this._rootQuery,
+    })
+
+    this.routes.push(route)
+    this._pathnames!.push(pathname)
+    return this
+  }
+
+  private _hasRoute(pathname: string) {
+    if (!this._pathnames!.includes(pathname)) {
+      return '*'
+    }
+    return pathname
   }
 
   start() {
     window.onpopstate = (event) => {
-      this._onRoute((event.currentTarget as Window).location.pathname);
-    };
-    this._onRoute(window.location.pathname);
+      const pathname = this._hasRoute(
+        (event.currentTarget as Window).location.pathname,
+      )
+      this._onRoute(pathname)
+    }
+    const pathname = this._hasRoute(window.location.pathname)
+    this._onRoute(pathname)
   }
 
   _onRoute(pathname: string) {
-    const route = this.getRoute(pathname);
-
+    const route = this.getRoute(pathname)
     if (!route) {
-      this._currentRoute?.leave();
+      return
     }
 
     if (this._currentRoute && this._currentRoute !== route) {
-      this._currentRoute.leave();
+      this._currentRoute.leave()
     }
-    this._currentRoute = route;
-    route?.render();
+
+    this._currentRoute = route
+    route.render()
+
+    if (!this._unprotectedPaths!.includes(pathname as `/${string}`)) {
+      this._onRouteCallback!()
+    }
+  }
+
+  public onRoute(callback: () => void) {
+    this._onRouteCallback = callback
+    return this
+  }
+
+  public setUnprotectedPaths(paths: `/${string}`[]) {
+    this._unprotectedPaths = paths
+    return this
   }
 
   go(pathname: string) {
-    this.history.pushState({}, '', pathname);
-    this._onRoute(pathname);
+    this.history.pushState({}, '', pathname)
+    this._onRoute(pathname)
   }
 
   back() {
-    this.history.back();
+    this.history.back()
   }
 
   forward() {
-    this.history.forward();
+    this.history.forward()
   }
 
   getRoute(pathname: string) {
-    return this.routes.find((route) => route.match(pathname));
+    return this.routes.find((route) => route.match(pathname))
   }
 }

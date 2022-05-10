@@ -1,0 +1,15 @@
+.input-error {
+  margin-top: 7px;
+  margin-bottom: 16px;
+  color: var(--error-color);
+  font-size: 8px;
+  text-align: left;
+}
+
+.input-error_profile {
+  margin-bottom: 0;
+}
+
+.input-error_hidden {
+  display: none;
+}
