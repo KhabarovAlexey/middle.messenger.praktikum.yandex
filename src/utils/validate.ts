@@ -28,6 +28,7 @@ function nameValidationChain(name: string): ValidationChain {
     { check: rules.isNull, message: `${name} is required` },
     { check: rules.isProhibitedNameSymbols, message: `Allowed ${name} symbols: Latin/Cyrillic letters and dash (-)` },
     { check: rules.isFirstCapital, message: `First letter should be Capital` },
+    { check: rules.isEqual, message: `Passwords not equal` },
   ];
 }
 
@@ -78,6 +79,13 @@ const validation: Validation = {
     ];
 
     return validationChain.find((link) => link.check(phone))?.message || '';
+  },
+  confirmPassword: (confirmPassword: string) => {
+    const passValue = document.querySelector<HTMLInputElement>('[name="password"]')?.value;
+    if (passValue !== confirmPassword || !confirmPassword) {
+      return nameValidationChain('Confirm password').find((link) => link.check(confirmPassword))?.message || '';
+    }
+    return '';
   },
 };
 
