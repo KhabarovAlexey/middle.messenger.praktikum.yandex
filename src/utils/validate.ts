@@ -71,13 +71,13 @@ const validation: Validation = {
 
     return validationChain.find((link) => link.check(email))?.message || '';
   },
-  phone: (email: string) => {
+  phone: (phone: string) => {
     const validationChain: ValidationChain = [
       { check: rules.isNull, message: 'Phone is required' },
       { check: rules.isInvalidPhone, message: 'Invalid Phone' },
     ];
 
-    return validationChain.find((link) => link.check(email))?.message || '';
+    return validationChain.find((link) => link.check(phone))?.message || '';
   },
 };
 

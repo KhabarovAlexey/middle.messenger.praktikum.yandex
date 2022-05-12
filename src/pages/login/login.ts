@@ -30,6 +30,22 @@ class LoginPage extends Block {
       },
     };
   }
+
+  onFocus(event: Event) {
+    const target = event.target as HTMLInputElement;
+    console.log('focus');
+    
+    this.setChildProps(`${target.name}Error`, { error: '' });
+  }
+
+  onBlur(event: Event) {
+    const target = event.target as HTMLInputElement;
+    console.log('blur');
+    this.setChildProps(`${target.name}Error`, {
+      error: validate(target.name, target.value),
+    });
+  }
+
   async onSubmit(event: Event) {
     event.preventDefault();
     const login = this.refs.login.querySelector('input')!.value;
@@ -44,24 +60,8 @@ class LoginPage extends Block {
         error: validate(key, value),
       });
     });
-    console.log('login', loginData);
 
     await authSevice.login(loginData);
-  }
-
-  onFocus(event: Event) {
-    const target = event.target as HTMLInputElement;
-    console.log('focus', this);
-    
-    this.setChildProps(`${target.name}Error`, { error: '' });
-  }
-
-  onBlur(event: Event) {
-    const target = event.target as HTMLInputElement;
-    console.log('blur', this);
-    this.setChildProps(`${target.name}Error`, {
-      error: validate(target.name, target.value),
-    });
   }
 
   render() {
@@ -73,7 +73,7 @@ class LoginPage extends Block {
           <from class="login-page__form">
             <div class="login-page__input">
               {{{Input
-                value=this.values.login
+                value=values.login
                 label="Login"
                 ref="login"
                 type="text"
@@ -83,13 +83,13 @@ class LoginPage extends Block {
               {{{InputError
                 id="loginError"
                 ref="loginError"
-                message=this.errors.login
+                message=errors.login
                 className="login-page__input__error"
               }}}
             </div>
             <div class="login-page__input">
               {{{Input
-                value=this.values.password
+                value=values.password
                 label="Password"
                 ref="password"
                 type="password"
@@ -99,7 +99,7 @@ class LoginPage extends Block {
               {{{InputError
                 id="passwordError"
                 ref="passwordError"
-                message=this.errors.password
+                message=errors.password
                 className="login-page__input__error"
               }}}
             </div>

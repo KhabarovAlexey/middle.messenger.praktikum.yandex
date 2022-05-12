@@ -16,7 +16,6 @@ class AuthService {
         store.set({ isLoading: false });
         router.go('/messenger');
       }
-      console.log('login');
 
       await auth.login(data);
 

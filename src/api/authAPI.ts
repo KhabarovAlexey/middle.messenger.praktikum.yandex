@@ -9,8 +9,6 @@ class AuthAPI {
   }
 
   login(data: LoginData) {
-    console.log('login auth');
-    
     return this._auth.post('signin', {
       includeCredentials: true,
       headers: { 'Content-Type': 'application/json' },
