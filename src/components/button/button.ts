@@ -4,7 +4,7 @@ import './button.css';
 
 interface ButtonProps {
   text?: string;
-  type: string;
+  type?: string;
   className: string;
   events: { [key: string]: () => {} };
   to?: string;
@@ -35,7 +35,7 @@ export class Button extends Block {
     // language=hbs
     return `
       <div class="button">
-        <button class="button{{className}}" type="{{type}}">{{text}}</button>
+        <button class="{{className}}" type="{{type}}">{{text}}</button>
       </div>
     `;
   }

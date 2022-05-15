@@ -1,12 +1,19 @@
 import Block from 'core/Block';
+import { connect } from 'utils/connect';
 import { validate } from 'utils/validate';
+import { router } from '../../router';
+import authService from 'services/auth';
+import userService from 'services/users';
+import store from 'core/Store';
 import './profile.css';
 
-export class ProfilePage extends Block {
+class ProfilePage extends Block {
   protected getStateFromProps() {
     this.state = {
       userName: 'Petrov Petr',
-      userAvatar: '../static/Ellipse 3.png',
+      choose: {
+        change: this.changeFile.bind(this),
+      },
       fields: [
         {
           ref: 'email',
@@ -18,8 +25,8 @@ export class ProfilePage extends Block {
           value: 'pochta@yandex.ru',
           readonly: true,
           events: {
-            focusin: this.onFocusHandler.bind(this),
-            focusout: this.onBlurHandler.bind(this),
+            focusin: this.onFocus.bind(this),
+            focusout: this.onBlur.bind(this),
           },
         },
         {
@@ -32,8 +39,8 @@ export class ProfilePage extends Block {
           value: 'petrovpetr',
           readonly: true,
           events: {
-            focusin: this.onFocusHandler.bind(this),
-            focusout: this.onBlurHandler.bind(this),
+            focusin: this.onFocus.bind(this),
+            focusout: this.onBlur.bind(this),
           },
         },
         {
@@ -46,8 +53,8 @@ export class ProfilePage extends Block {
           value: 'Petr',
           readonly: true,
           events: {
-            focusin: this.onFocusHandler.bind(this),
-            focusout: this.onBlurHandler.bind(this),
+            focusin: this.onFocus.bind(this),
+            focusout: this.onBlur.bind(this),
           },
         },
         {
@@ -60,8 +67,8 @@ export class ProfilePage extends Block {
           value: 'Petrov',
           readonly: true,
           events: {
-            focusin: this.onFocusHandler.bind(this),
-            focusout: this.onBlurHandler.bind(this),
+            focusin: this.onFocus.bind(this),
+            focusout: this.onBlur.bind(this),
           },
         },
         {
@@ -74,12 +81,12 @@ export class ProfilePage extends Block {
           value: '8-800-888-88-88',
           readonly: true,
           events: {
-            focusin: this.onFocusHandler.bind(this),
-            focusout: this.onBlurHandler.bind(this),
+            focusin: this.onFocus.bind(this),
+            focusout: this.onBlur.bind(this),
           },
         },
       ],
-      password: [
+      passwords: [
         {
           ref: 'old_password',
           refError: 'old_passwordError',
@@ -89,8 +96,8 @@ export class ProfilePage extends Block {
           value: '*****',
           type: 'password',
           events: {
-            focusin: this.onFocusHandler.bind(this),
-            focusout: this.onBlurHandler.bind(this),
+            focusin: this.onFocus.bind(this),
+            focusout: this.onBlur.bind(this),
           },
         },
         {
@@ -102,8 +109,8 @@ export class ProfilePage extends Block {
           value: '*****',
           type: 'password',
           events: {
-            focusin: this.onFocusHandler.bind(this),
-            focusout: this.onBlurHandler.bind(this),
+            focusin: this.onFocus.bind(this),
+            focusout: this.onBlur.bind(this),
           },
         },
         {
@@ -115,44 +122,82 @@ export class ProfilePage extends Block {
           value: '*****',
           type: 'password',
           events: {
-            focusin: this.onFocusHandler.bind(this),
-            focusout: this.onBlurHandler.bind(this),
+            focusin: this.onFocus.bind(this),
+            focusout: this.onBlur.bind(this),
           },
         },
       ],
-      button: {
-        text: 'Back',
-        events: {
-          click: this.saveDataHandler.bind(this),
+      buttons: [
+        {
+          text: 'Save',
+          className: 'profile-page__save-button hidden',
+          events: {
+            click: this.saveInfo.bind(this),
+          },
         },
-      },
+        {
+          text: 'Back',
+          className: 'profile-page__back-button',
+          events: {
+            click: this.backToChats.bind(this),
+          },
+        },
+      ],
       links: [
         {
           link: '#',
-          textLink: 'Change data',
+          text: 'Change data',
           events: {
-            click: this.changeInfoHandler.bind(this),
+            click: this.changeInfo.bind(this),
           },
         },
         {
           link: '#',
-          textLink: 'Change password',
+          text: 'Change password',
           events: {
-            click: this.changePasswordHandler.bind(this),
+            click: this.changePassword.bind(this),
           },
         },
       ],
     };
   }
 
-  toggleDataHandler() {
-    const links = document.querySelector('.profile__links');
-    const button = document.querySelector('.profile__button');
-    links?.classList.toggle('profile__links_hidden');
-    button?.classList.toggle('profile__button_hidden');
+  async componentDidMount() {
+    const user: Indexed = await authService.getUser();
+    const { fields } = this.state;
+    const newFields = fields.map((field: Indexed) => {
+      const newValue = user[field.name];
+      const newField = { ...field, value: newValue };
+      return newField;
+    });
+    this.setState({
+      ...this.state,
+      fields: newFields,
+      user,
+    });
   }
 
-  changeInfoHandler(event: Event) {
+  async changeFile(event: Event) {
+    const { files }: { files: FileList | null } = event.target as HTMLInputElement;
+    if (!files?.length) {
+      return;
+    }
+    const [file] = files;
+    const formData = new FormData();
+    formData.append('avatar', file);
+    await userService
+      .changeUserAvatar(formData)
+      .then((data) => {
+        store.set({
+          user: data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  changeInfo(event: Event) {
     event.preventDefault();
     const { fields } = this.state;
     const newFields = fields.map((field: TStringObject) => ({
@@ -164,22 +209,27 @@ export class ProfilePage extends Block {
       fields: newFields,
     });
 
-    this.toggleDataHandler();
+    const links = document.querySelector('.profile-page__links');
+    const buttonBack = document.querySelector('.profile-page__back-button');
+    const buttonSave = document.querySelector('.profile-page__save-button');
+    links?.classList.toggle('profile-page__links_hidden');
+    buttonBack?.classList.toggle('hidden');
+    buttonSave?.classList.toggle('hidden');
   }
 
-  changePasswordHandler(event: Event) {
+  changePassword(event: Event) {
     event.preventDefault();
-    this.changeInfoHandler(event);
-    const profileData = document.querySelector('.profile__change-data');
-    const profilePass = document.querySelector('.profile__change-pass');
-    profileData?.classList.toggle('profile__change-data_hidden');
-    profilePass?.classList.toggle('profile__change-pass_hidden');
+    this.changeInfo(event);
+    const profileData = document.querySelector('.profile-page__change-data');
+    const profilePass = document.querySelector('.profile-page__change-pass');
+    profileData?.classList.toggle('hidden');
+    profilePass?.classList.toggle('hidden');
   }
 
-  saveDataHandler(event: Event) {
+  saveInfo(event: Event) {
     event.preventDefault();
-    const profileData = document.querySelector('.profile__change-data');
-    const condition = profileData?.classList.contains('profile__change-data_hidden');
+    const profileData = document.querySelector('.profile-page__change-data');
+    const condition = profileData?.classList.contains('profile-page__change-data_hidden');
     if (!condition) {
       const login = this.refs.login.querySelector('input')!.value;
       const email = this.refs.email.querySelector('input')!.value;
@@ -217,54 +267,89 @@ export class ProfilePage extends Block {
     }
   }
 
-  onFocusHandler(event: Event) {
-    const target = event.target! as HTMLInputElement;
-    this.setChildProps(`${target.name}Error`, { message: '' });
+  backToChats(event: Event) {
+    event.preventDefault();
+    router.go('/messenger');
   }
 
-  onBlurHandler(event: Event) {
-    const target = event.target! as HTMLInputElement;
+  onFocus(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.setChildProps(`${target.name}Error`, { error: '' });
+  }
+
+  onBlur(event: Event) {
+    const target = event.target as HTMLInputElement;
     this.setChildProps(`${target.name}Error`, {
-      message: validate(target.name, target.value),
+      error: validate(target.name, target.value),
     });
   }
 
   protected render() {
     return `
     <div class="profile-page">
+      {{{Loader show=isLoading}}}
       <div class="profile-page__user-avatar">
-        <div class="profile-page__avatar">
-          <img src="{{userImage}}">
-        </div>
+        {{{Avatar events=choose img=user.avatar}}}
         <p class="profile-page__username">{{userName}}</p>
       </div>
       <form class="profile-page__inf">
-        <div>
-        {{#each fields}}
-          <div class="profile-page__data-field">
-            <label for='{{id}}' class='field__label'>{{label}}</label>
-            <div class="field__input-container">
-              <input
-                id='{{id}}'
-                type='{{type}}'
-                class='field__input'
-                value='{{value}}'
-                name='{{name}}'
-                {{#if readonly}}readonly{{/if}}
-              />
-            </div>
-          </div>   
-        {{/each}}   
+        <div class="profile-page__change-data">
+          {{#each fields}}
+            <div class="profile-page__data-field">
+              <label for='{{id}}' class='field__label'>{{label}}</label>
+              <div class="field__input-container">
+                <input
+                  id={{this.id}}
+                  type={{this.type}}
+                  class='field__input'
+                  value={{this.value}}
+                  name={{this.name}}
+                  {{#if readonly}}readonly{{/if}}
+                />
+              </div>
+            </div>  
+            {{{InputError ref=this.refError className='input-error_profile'}}} 
+          {{/each}}   
         </div> 
-      </from>
-      <div class="profile__links">
+        <div class="profile-page__change-pass hidden">
+          {{#each passwords}}
+            <div class="profile-page__pass-field">
+              <label for='{{id}}' class='field__label'>{{label}}</label>
+              <div class="field__input-container">
+                <input
+                  id={{this.id}}
+                  type={{this.type}}
+                  class='field__input'
+                  value={{this.value}}
+                  name={{this.name}}
+                  {{#if readonly}}readonly{{/if}}
+                />
+              </div>
+            </div>   
+            {{{InputError ref=this.refError className='input-error_profile'}}}
+          {{/each}}
+        </div>
+      </form>
+      <div class="profile-page__links">
         {{#each links}}
           <div class="profile__link">
-              {{{Link text=this.textLink link=this.link events=this.events}}}
+            {{{Link text=this.text link=this.link events=this.events}}}
           </div>
         {{/each}}
+      </div>    
+      <div class="profile-page__buttons">
+        {{#each buttons}}
+          {{{Button text=this.text className=this.className events=this.events}}}
+        {{/each}}
       </div>
-      {{{Link text='Back to chat' link='/chat'}}}
     </div>`;
   }
 }
+
+const mapStateToProps = (state: Indexed) => ({
+  error: state.error,
+  user: state.user,
+  isLoading: state.isLoading,
+});
+
+export default connect(mapStateToProps)(ProfilePage);

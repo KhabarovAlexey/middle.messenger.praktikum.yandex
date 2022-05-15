@@ -1,7 +1,7 @@
 import Block from 'core/Block';
 import { validate } from 'utils/validate';
 import { connect } from 'utils/connect';
-import authSevice from 'services/auth';
+import authService from 'services/auth';
 import './login.css';
 
 class LoginPage extends Block {
@@ -9,7 +9,7 @@ class LoginPage extends Block {
     this.state = {
       button: {
         type: 'submit',
-        className: '__button',
+        className: 'login__button',
         events: {
           click: this.onSubmit.bind(this),
         },
@@ -33,14 +33,11 @@ class LoginPage extends Block {
 
   onFocus(event: Event) {
     const target = event.target as HTMLInputElement;
-    console.log('focus');
-    
     this.setChildProps(`${target.name}Error`, { error: '' });
   }
 
   onBlur(event: Event) {
     const target = event.target as HTMLInputElement;
-    console.log('blur');
     this.setChildProps(`${target.name}Error`, {
       error: validate(target.name, target.value),
     });
@@ -61,7 +58,7 @@ class LoginPage extends Block {
       });
     });
 
-    await authSevice.login(loginData);
+    await authService.login(loginData);
   }
 
   render() {

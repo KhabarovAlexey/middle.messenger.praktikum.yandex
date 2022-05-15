@@ -1,0 +1,42 @@
+.avatar {
+  margin: auto;
+}
+.avatar__img {
+  height: 100%;
+}
+
+.avatar__label {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  height: 130px;
+  background-color: var(--grey-color);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.avatar:hover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 130px;
+  color: #fff;
+  font-size: 13px;
+  border-radius: 50%;
+  content: 'Change photo';
+}
+
+.avatar__input {
+  position: absolute;
+  z-index: -1;
+  width: 0.1px;
+  height: 0.1px;
+  overflow: hidden;
+  opacity: 0;
+}

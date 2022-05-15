@@ -1,7 +1,7 @@
 import Block from 'core/Block';
 import { validate } from 'utils/validate';
 import { connect } from 'utils/connect';
-import authSevice from 'services/auth';
+import authService from 'services/auth';
 import './registration.css';
 
 class RegistrationPage extends Block {
@@ -9,7 +9,7 @@ class RegistrationPage extends Block {
     this.state = {
       button: {
         type: 'submit',
-        className: '__button',
+        className: 'registration-page__button',
         events: {
           click: this.onSubmit.bind(this),
         },
@@ -42,14 +42,11 @@ class RegistrationPage extends Block {
   }
   onFocus(event: Event) {
     const target = event.target as HTMLInputElement;
-    console.log('focus');
-    
     this.setChildProps(`${target.name}Error`, { error: '' });
   }
 
   onBlur(event: Event) {
     const target = event.target as HTMLInputElement;
-    console.log('blur');
     this.setChildProps(`${target.name}Error`, {
       error: validate(target.name, target.value),
     });
@@ -80,7 +77,7 @@ class RegistrationPage extends Block {
       });
     });
 
-    await authSevice.signup(signUpData);
+    await authService.signup(signUpData);
   }
 
   render() {

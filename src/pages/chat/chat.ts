@@ -1,13 +1,13 @@
 import Block from 'core/Block';
 import './chat.css';
 import data from '../../static/data/contacts.json';
+import { connect } from 'utils/connect';
 
 export class ChatPage extends Block {
   protected getStateFromProps() {
     this.state = {
       contacts: data,
     };
-    console.log(this.state.contacts);
   }
   protected render() {
     return `
@@ -43,3 +43,11 @@ export class ChatPage extends Block {
     `;
   }
 }
+
+const mapStateToProps = (state: Indexed) => ({
+  error: state.error,
+  user: state.user,
+  isLoading: state.isLoading,
+});
+
+export default connect(mapStateToProps)(ChatPage);
